@@ -34,11 +34,13 @@ func subtrair(p1, p2 polinomio.Polinomio) polinomio.Polinomio {
 
 	for current != nil {
 		if result.SearchExpoente(current.Value.Expoente) == nil {
+			current.Value.Coeficiente = -current.Value.Coeficiente
 			result.InsertTermo(current.Value)
 
 		}
 		current = current.Next
 	}
+	result = simplificar(*result)
 
 	return *result
 }

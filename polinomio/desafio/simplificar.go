@@ -15,7 +15,7 @@ func simplificar(p polinomio.Polinomio) *polinomio.Polinomio {
 		expoente := current.Value.Expoente
 
 		// se o expoente já existe no polinomio resultante, pula para o próximo termo
-		if result.SearchExpoente(current.Value.Expoente) != nil {
+		if result.SearchExpoente(current.Value.Expoente) != nil || coeficiente == 0 {
 			current = current.Next
 			continue
 		}

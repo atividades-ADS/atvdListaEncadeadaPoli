@@ -20,6 +20,9 @@ func InitPolinomio() *Polinomio {
 }
 
 func (p *Polinomio) InsertTermo(t Termo) {
+	if t.Coeficiente == 0 {
+		return
+	}
 	p.Termos.InsertTail(t)
 }
 

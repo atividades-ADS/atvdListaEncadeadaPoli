@@ -40,5 +40,7 @@ func somar(p1, p2 polinomio.Polinomio) polinomio.Polinomio {
 		current = current.Next
 	}
 
+	result = simplificar(*result)
+
 	return *result
 }
