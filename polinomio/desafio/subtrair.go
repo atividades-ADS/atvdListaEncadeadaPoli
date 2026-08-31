@@ -17,15 +17,17 @@ func subtrair(p1, p2 polinomio.Polinomio) polinomio.Polinomio {
 
 		termoP2 := p2.SearchExpoente(current.Value.Expoente)
 
+		termoResult := current.Value
+
 		if termoP2 != nil {
-			termoResult := polinomio.Termo{
-				Coeficiente: current.Value.Coeficiente - termoP2.Coeficiente,
-				Expoente:    current.Value.Expoente,
-			}
-			result.InsertTermo(termoResult)
-		} else {
-			result.InsertTermo(current.Value)
+			termoResult.Coeficiente -= termoP2.Coeficiente
 		}
+
+		// Insere somente se o coeficiente não for zero
+		if termoResult.Coeficiente != 0 {
+			result.InsertTermo(termoResult)
+		}
+
 		current = current.Next
 
 	}
@@ -33,14 +35,20 @@ func subtrair(p1, p2 polinomio.Polinomio) polinomio.Polinomio {
 	current = p2.Termos.Head
 
 	for current != nil {
-		if result.SearchExpoente(current.Value.Expoente) == nil {
-			current.Value.Coeficiente = -current.Value.Coeficiente
-			result.InsertTermo(current.Value)
 
+		// Verifica em p1, e não em result
+		if p1.SearchExpoente(current.Value.Expoente) == nil {
+
+			termoResult := current.Value
+			termoResult.Coeficiente = -termoResult.Coeficiente
+
+			if termoResult.Coeficiente != 0 {
+				result.InsertTermo(termoResult)
+			}
 		}
+
 		current = current.Next
 	}
-	result = simplificar(*result)
 
 	return *result
 }

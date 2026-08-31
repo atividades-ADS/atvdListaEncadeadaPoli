@@ -41,16 +41,16 @@ func doAction(action string, polinomios []polinomio.Polinomio) {
 			return
 		}
 
-		s := somar(polinomios[0], polinomios[1])
-		fmt.Println("Soma:", Exibicao(s))
+		som := somar(polinomios[0], polinomios[1])
+		fmt.Println("Soma:", Exibicao(som))
 
 	case "-":
 		if len(polinomios) < 2 {
 			return
 		}
 
-		s := subtrair(polinomios[0], polinomios[1])
-		fmt.Println("Subtração:", Exibicao(s))
+		sub := subtrair(polinomios[0], polinomios[1])
+		fmt.Println("Subtração:", Exibicao(sub))
 
 	case "*":
 		if len(polinomios) < 2 {
@@ -61,10 +61,21 @@ func doAction(action string, polinomios []polinomio.Polinomio) {
 		fmt.Println("Multiplicação:", Exibicao(m))
 
 	case "A", "a":
-		if len(polinomios) < 1 {
+		if len(polinomios) < 2 {
 			return
 		}
-		a := avaliar(polinomios[1], polinomios[0].Termos.Head.Value.Coeficiente)
+
+		if polinomios[0].Termos.Head == nil {
+			a := avaliar(polinomios[1], 0.0)
+			fmt.Println("Avaliação:", a)
+			return
+		}
+
+		x := polinomios[0].Termos.Head.Value.Coeficiente
+
+		fmt.Println("x =", x)
+
+		a := avaliar(polinomios[1], x)
 
 		fmt.Println("Avaliação:", a)
 
@@ -80,8 +91,8 @@ func doAction(action string, polinomios []polinomio.Polinomio) {
 			return
 		}
 
-		s := simplificar(polinomios[0])
-		fmt.Println("Simplificado:", Exibicao(*s))
+		sim := simplificar(polinomios[0])
+		fmt.Println("Simplificado:", Exibicao(*sim))
 	}
 }
 
