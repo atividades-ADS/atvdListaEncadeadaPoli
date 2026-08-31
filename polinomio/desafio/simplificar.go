@@ -9,16 +9,22 @@ func simplificar(p polinomio.Polinomio) *polinomio.Polinomio {
 
 	current := p.Termos.Head
 
+	processados := make(map[int]bool)
+
 	for current != nil {
 
-		coeficiente := current.Value.Coeficiente
 		expoente := current.Value.Expoente
 
-		// se o expoente já existe no polinomio resultante, pula para o próximo termo
-		if result.SearchExpoente(current.Value.Expoente) != nil || coeficiente == 0 {
+		if processados[expoente] {
 			current = current.Next
 			continue
 		}
+
+		// Marca o expoente como processado,
+		// mesmo que o resultado da soma seja zero.
+		processados[expoente] = true
+
+		coeficiente := current.Value.Coeficiente
 
 		simplificando := current.Next
 
@@ -29,12 +35,15 @@ func simplificar(p polinomio.Polinomio) *polinomio.Polinomio {
 			simplificando = simplificando.Next
 		}
 
-		termoResult := polinomio.Termo{
-			Coeficiente: coeficiente,
-			Expoente:    expoente,
-		}
+		// Só adiciona se a soma for diferente de zero
+		if coeficiente != 0 {
+			termoResult := polinomio.Termo{
+				Coeficiente: coeficiente,
+				Expoente:    expoente,
+			}
 
-		result.InsertTermo(termoResult)
+			result.InsertTermo(termoResult)
+		}
 
 		current = current.Next
 	}
